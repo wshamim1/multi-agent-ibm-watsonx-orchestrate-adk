@@ -28,17 +28,7 @@ This example shows:
 1. **External Agent** - A LangChain-based agent running as an external service
 2. **Supervisor Agent** - A native agent that coordinates and delegates to the external agent
 
-## Architecture
 
-```
-User Request
-     ↓
-Supervisor Agent (Native)
-     ↓
-External LangChain Agent (External Service)
-     ↓
-Response with Greeting + Weather
-```
 
 ## Components
 
