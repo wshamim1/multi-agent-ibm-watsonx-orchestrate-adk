@@ -4,17 +4,17 @@ Below is a flow diagram illustrating the interaction from the Supervisor Agent t
 
 ```mermaid
 flowchart TD
-  User([User Request])
-  Supervisor[Supervisor Agent (Native)]
-  External[External Agent (Container)]
-  LangChain[LangChain Agent Service]
+    User[User Request]
+    Supervisor[Supervisor Agent (Native)]
+    External[External Agent (Container)]
+    LangChain[LangChain Agent Service]
 
-  User --> Supervisor
-  Supervisor --> External
-  External --> LangChain
-  LangChain --> External
-  External --> Supervisor
-  Supervisor --> User
+    User --> Supervisor
+    Supervisor --> External
+    External --> LangChain
+    LangChain --> External
+    External --> Supervisor
+    Supervisor --> User
 ```
 
 
