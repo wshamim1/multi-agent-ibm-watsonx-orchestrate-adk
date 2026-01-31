@@ -1,21 +1,4 @@
-## System Flow Diagram
 
-Below is a flow diagram illustrating the interaction from the Supervisor Agent to the External Agent and then to the LangChain Agents:
-
-```mermaid
-flowchart TD
-    User[User Request]
-    Supervisor[Supervisor Agent (Native)]
-    External[External Agent (Container)]
-    LangChain[LangChain Agent Service]
-
-    User --> Supervisor
-    Supervisor --> External
-    External --> LangChain
-    LangChain --> External
-    External --> Supervisor
-    Supervisor --> User
-```
 
 
 # External Agent with Supervisor
@@ -28,7 +11,17 @@ This example shows:
 1. **External Agent** - A LangChain-based agent running as an external service
 2. **Supervisor Agent** - A native agent that coordinates and delegates to the external agent
 
+## Architecture
 
+```
+User Request
+     ↓
+Supervisor Agent (Native)
+     ↓
+External LangChain Agent (External Service)
+     ↓
+Response with Greeting + Weather
+```
 
 ## Components
 
