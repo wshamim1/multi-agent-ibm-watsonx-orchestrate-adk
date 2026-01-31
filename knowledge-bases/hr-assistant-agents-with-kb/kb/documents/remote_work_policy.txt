@@ -1,0 +1,69 @@
+REMOTE WORK POLICY - ACME CORPORATION
+
+OVERVIEW
+ACME Corporation supports flexible work arrangements to promote work-life balance and productivity.
+
+ELIGIBILITY
+- Employees must have completed 90-day probationary period
+- Role must be suitable for remote work
+- Manager approval required
+- Must maintain reliable internet connection and appropriate workspace
+
+REMOTE WORK OPTIONS
+
+1. FULL-TIME REMOTE
+- Work from home 5 days per week
+- Required to attend quarterly in-person meetings
+- Must be available during core business hours (10 AM - 3 PM local time)
+
+2. HYBRID SCHEDULE
+- Minimum 2 days per week in office
+- Flexible scheduling with manager approval
+- Must attend all mandatory in-person meetings
+
+3. OCCASIONAL REMOTE
+- Work from home as needed with advance notice
+- No formal approval process required
+- Maximum 2 days per week
+
+EQUIPMENT AND TECHNOLOGY
+- Company provides laptop, monitor, and necessary software
+- Employees responsible for internet connection
+- IT support available for company-provided equipment
+- VPN required for accessing company systems
+
+COMMUNICATION EXPECTATIONS
+- Available on Slack during work hours
+- Video camera on for team meetings
+- Respond to emails within 4 hours during business hours
+- Update calendar with availability status
+
+SECURITY REQUIREMENTS
+- Use company VPN for all work activities
+- Do not share passwords or access credentials
+- Lock computer when away from desk
+- Report any security incidents immediately
+- No public WiFi for accessing sensitive data
+
+WORKSPACE REQUIREMENTS
+- Dedicated workspace free from distractions
+- Ergonomic setup to prevent injury
+- Adequate lighting and ventilation
+- Professional background for video calls
+
+PERFORMANCE EXPECTATIONS
+- Same productivity standards as in-office work
+- Meet all deadlines and deliverables
+- Participate actively in team meetings
+- Maintain regular communication with manager and team
+
+TIME TRACKING
+- Log hours in company time tracking system
+- Take regular breaks (lunch and short breaks)
+- No expectation to work outside normal hours
+- Overtime must be pre-approved
+
+TERMINATION OF REMOTE WORK
+- Company reserves right to modify or terminate remote work arrangements
+- 30-day notice will be provided when possible
+- Performance issues may result in return to office requirement

@@ -1,0 +1,44 @@
+COMPANY HANDBOOK - ACME CORPORATION
+
+Welcome to ACME Corporation! This handbook contains essential information about our company policies and culture.
+
+WORK HOURS
+- Standard work hours: 9:00 AM - 5:00 PM, Monday through Friday
+- Flexible work arrangements available with manager approval
+- Core hours (required presence): 10:00 AM - 3:00 PM
+
+TIME OFF POLICY
+- Vacation Days: 15 days per year for employees with 0-5 years of service
+- Vacation Days: 20 days per year for employees with 5+ years of service
+- Sick Leave: 10 days per year
+- Personal Days: 3 days per year
+- Holidays: 10 company-observed holidays
+
+BENEFITS
+- Health Insurance: Comprehensive medical, dental, and vision coverage
+- 401(k) Retirement Plan: Company matches up to 5% of salary
+- Life Insurance: Company-provided coverage equal to 2x annual salary
+- Professional Development: $2,000 annual budget for training and conferences
+
+CODE OF CONDUCT
+- Treat all colleagues with respect and professionalism
+- Maintain confidentiality of company and client information
+- Report any ethical concerns to HR or management
+- Follow all safety protocols and procedures
+
+DRESS CODE
+- Business casual attire Monday through Thursday
+- Casual Friday (jeans and company-branded shirts acceptable)
+- Professional attire required for client meetings
+
+COMMUNICATION
+- Check email at least twice daily during work hours
+- Respond to urgent messages within 2 hours
+- Use Slack for team communication
+- Schedule meetings through Outlook calendar
+
+PERFORMANCE REVIEWS
+- Annual performance reviews conducted in December
+- Mid-year check-ins in June
+- Continuous feedback encouraged throughout the year
+- Performance tied to annual bonus and salary adjustments
