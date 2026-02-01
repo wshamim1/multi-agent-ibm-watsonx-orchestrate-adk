@@ -1,0 +1,8 @@
+spec_version: v1
+kind: connection
+app_id: bearer-connection-app
+environments:
+    draft:  # in draft each person needs to provide their own bearer token
+        kind: bearer
+        type: team
+        server_url: https://example.com/

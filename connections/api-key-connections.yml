@@ -1,0 +1,8 @@
+spec_version: v1
+kind: connection
+app_id: api-key-connection-app
+environments:
+    draft:  # in draft each person needs to provide their own API key
+        kind: api_key
+        type: team
+        server_url: https://example.com/
