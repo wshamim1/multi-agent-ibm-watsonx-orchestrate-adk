@@ -13,6 +13,21 @@ The most complete end-to-end example is **api-data-fetcher**, which includes age
 
 ---
 
+## Other Examples Included
+
+Use these folders to explore additional patterns beyond api-data-fetcher:
+
+- MCP example: [mcp-example/greeter-mcp/](mcp-example/greeter-mcp/)
+	- Greeter MCP server and agent wiring
+- External agents: [external-agents/](external-agents/)
+	- External agent definitions and supervisor orchestration
+- Knowledge bases: [knowledge-bases/](knowledge-bases/)
+	- KB-backed agents (HR assistant example with documents)
+- Native agent packs: [native-agents/](native-agents/)
+	- Multiple agent/tool systems including greeter and weather examples
+- Customer care system: [product-customer_care/](product-customer_care/)
+	- Customer care agents and ServiceNow tools
+
 ## Repository Structure
 
 ```
