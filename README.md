@@ -1,45 +1,179 @@
 #########################################
-# Multi-Agent IBM watsonx Orchestrate ADK Demos
+# Multi-Agent IBM watsonx Orchestrate ADK Examples
 #########################################
 
-This repository provides multiple working examples for IBM watsonx Orchestrate ADK, covering:
+This repository provides comprehensive working examples for IBM watsonx Orchestrate ADK, covering:
 
-- Native multi-agent systems and supervisor patterns
-- Tools integrated with IBM connection types (Basic, Bearer, API Key, Key-Value)
-- Knowledge-base (KB) backed agents
-- MCP-based agent and server examples
-- External agent configurations
-- Optional FastAPI backends for local testing
-
-Use the folder that matches the pattern you want to learn or prototype.
+- **Connections**: All authentication types (Basic, Bearer, API Key, Key-Value, OAuth, SSO)
+- **Native Agents**: Multi-agent systems with supervisor patterns
+- **External Agents**: Integration with external agent systems
+- **Knowledge Bases**: KB-backed agents with document retrieval
+- **MCP Integration**: Model Context Protocol server examples
+- **FastAPI Backend**: Multi-auth API server for testing and integration
+- **Tools**: Python tools with connection bindings
 
 ---
 
 ## Repository Structure
 
 ```
-connections/               # Connection templates (basic, bearer, api-key, key-value, oauth, sso)
-external-agents/           # External agent examples
-knowledge-bases/           # KB-backed agent examples
-mcp-example/               # MCP example with greeter server
-native-agents/             # Native agent systems
-product-customer_care/     # Customer care multi-agent example
+├── connections/                      # Connection examples and backend
+│   ├── connections-types/            # Templates for all auth types
+│   │   ├── basic-connections.yml
+│   │   ├── bearer-connections.yml
+│   │   ├── api-key-connections.yml
+│   │   ├── key-value-connections.yml
+│   │   └── oauth-*.yml (multiple flows)
+│   ├── agents-tools/                 # Connection-aware agents and tools
+│   │   └── api-data-fetcher/         # Complete example system
+│   ├── backend/                      # FastAPI multi-auth server
+│   │   ├── fastapi_app.py            # Multi-auth API (4 methods)
+│   │   ├── run_server.sh             # Server management
+│   │   └── test_multi_auth.py        # Test suite
+│   └── scripts/                      # Deployment scripts
+│
+├── native-agents/                    # Native agent systems
+│   ├── greeter-agents/               # Simple greeter examples
+│   └── product-customer_care/        # Customer care workflow
+│
+├── external-agents/                  # External agent examples
+│   ├── greeter-external-agent.yml
+│   └── greeter-supervisor-agent.yml
+│
+├── knowledge-bases/                  # KB-backed agents
+│   ├── hr-assistant-agents-with-kb/  # HR assistant with documents
+│   └── technical-support-agent-with-kb/
+│
+├── mcp-example/                      # MCP server examples
+│   └── greeter-mcp/                  # Greeter MCP implementation
+│
+├── flow-builder/                     # Agentic workflow examples
+│
+└── WATSONX_ORCHESTRATE_CLI_CHEATSHEET.md  # Complete CLI reference
 ```
 
 ---
 
-## Examples Included
+## Quick Start
 
-- MCP example: [mcp-example/greeter-mcp/](mcp-example/greeter-mcp/)
-  - Greeter MCP server and agent wiring
-- External agents: [external-agents/](external-agents/)
-  - External agent definitions and supervisor orchestration
-- Knowledge bases: [knowledge-bases/](knowledge-bases/)
-  - KB-backed agents (HR assistant example with documents)
-- Native agent packs: [native-agents/](native-agents/)
-  - Multiple agent/tool systems including greeter and weather examples
-- Customer care system: [product-customer_care/](product-customer_care/)
-  - Customer care agents and ServiceNow tools
+### 1. Install Dependencies
+
+```bash
+# Install the ADK
+pip install --upgrade ibm-watsonx-orchestrate
+
+# For FastAPI backend
+cd connections/backend
+pip install -r requirements.txt
+```
+
+### 2. Start the FastAPI Backend (Optional)
+
+The backend demonstrates multi-authentication support:
+
+```bash
+cd connections/backend
+./run_server.sh start
+
+# Or manually:
+uvicorn fastapi_app:app --host 0.0.0.0 --port 8000 --reload
+```
+
+The server supports:
+- **Basic Auth**: `demo/demo123`
+- **Bearer Token**: `demo-token-456`
+- **API Key**: `demo-api-key` (via `x-api-key` header)
+- **Key-Value**: `client-123` (via `x-client-id` header)
+
+### 3. Configure Environment
+
+```bash
+# Add your watsonx Orchestrate environment
+orchestrate env add -n my-env -u <your-instance-url>
+
+# Activate it
+orchestrate env activate my-env
+```
+
+### 4. Import Connections
+
+```bash
+# Example: Basic Auth connection
+orchestrate connections import -f connections/connections-types/basic-connections.yml
+orchestrate connections set-credentials -a basic-connection-app --env draft -u demo -p demo123
+```
+
+### 5. Import and Deploy Agents/Tools
+
+```bash
+# Navigate to an example
+cd connections/agents-tools/api-data-fetcher
+
+# See the README for specific instructions
+cat README.md
+```
+
+---
+
+## Examples Overview
+
+### 🔗 Connections System (Featured)
+
+**Location**: `connections/`
+
+Complete connection examples with a **multi-authentication FastAPI backend**:
+
+- **8 Authentication Types**: Basic, Bearer, API Key, Key-Value, OAuth (4 flows)
+- **Working Backend**: FastAPI server with 4 auth methods
+- **Test Scripts**: Comprehensive test suite for all auth types
+- **Agent Integration**: Example agents and tools using connections
+
+**Quick Test**:
+```bash
+cd connections/backend
+./run_server.sh start
+
+# Test different auth methods
+curl -u demo:demo123 http://localhost:8000/api/v1/data
+curl -H "Authorization: Bearer demo-token-456" http://localhost:8000/api/v1/data
+curl -H "x-api-key: demo-api-key" http://localhost:8000/api/v1/data
+curl -H "x-client-id: client-123" http://localhost:8000/api/v1/data
+```
+
+Visit `http://localhost:8000/docs` for interactive API documentation.
+
+### 🤖 Native Agents
+
+**Locations**: `native-agents/`, `connections/agents-tools/`
+
+- **Greeter System**: Simple hello world agents with tools
+- **Customer Care**: Multi-agent customer support workflow
+- **API Data Fetcher**: Complete system with connection-aware tools
+
+### 🌐 External Agents
+
+**Location**: `external-agents/`
+
+Integration patterns for external agent systems with supervisor coordination.
+
+### 📚 Knowledge Bases
+
+**Location**: `knowledge-bases/`
+
+- **HR Assistant**: Policy documents with conversational search
+- **Technical Support**: KB-backed support agent
+
+### 🔌 MCP Integration
+
+**Location**: `mcp-example/greeter-mcp/`
+
+Model Context Protocol server implementation examples.
+
+### 🔄 Agentic Workflows
+
+**Location**: `flow-builder/`
+
+Complex multi-step workflow examples with agents and tools.
 
 ---
 
