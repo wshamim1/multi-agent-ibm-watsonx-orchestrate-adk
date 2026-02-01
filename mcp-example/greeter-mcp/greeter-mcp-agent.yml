@@ -1,0 +1,10 @@
+spec_version: v1
+kind: native
+name: greeter-mcp-agent
+description: An agent that greets you using the output from its tool
+instructions: Always greet for the provided name
+llm: watsonx/meta-llama/llama-3-2-90b-vision-instruct
+style: default
+collaborators: []
+tools:
+- greetme:greetme
