@@ -177,83 +177,214 @@ Complex multi-step workflow examples with agents and tools.
 
 ---
 
-## How to Use This Repo
+## Usage Patterns
 
-### 0) Clone the repository
+### 🎯 Connection-Aware Tools (Recommended Starting Point)
 
-```
-git clone <your-repo-url>
-cd multi-agent-ibm-watsonx-orchestrate-adk
-```
+If you need to integrate with external APIs requiring authentication:
 
-### 1) Choose an example
+**Path**: [connections/agents-tools/api-data-fetcher/](connections/agents-tools/api-data-fetcher/)
 
-Pick the folder that matches your goal:
+1. Start the backend server:
+   ```bash
+   cd connections/backend
+   ./run_server.sh start
+   # Server runs on http://localhost:8000
+   ```
 
-- For MCP flows: [mcp-example/greeter-mcp/](mcp-example/greeter-mcp/)
-- For KB agents: [knowledge-bases/](knowledge-bases/)
-- For native agent systems: [native-agents/](native-agents/)
-- For external agents: [external-agents/](external-agents/)
-- For customer care workflows: [product-customer_care/](product-customer_care/)
+2. Import a connection template:
+   ```bash
+   orchestrate connections import -f connections/connections-types/basic-connections.yml
+   orchestrate connections set-credentials -a basic-connection-app --env draft -u demo -p demo123
+   ```
 
-### 2) Read the example docs
+3. Import and deploy tools:
+   ```bash
+   cd connections/agents-tools/api-data-fetcher
+   cat README.md  # Follow specific instructions
+   ```
 
-Most examples include their own README or docs. Start in the example folder:
-
-- [native-agents/api-data-fetcher/](native-agents/api-data-fetcher/)
-- [external-agents/README.md](external-agents/README.md)
-- [mcp-example/greeter-mcp/README.md](mcp-example/greeter-mcp/README.md)
-
-### 3) Configure connections
-
-Connection templates are in [connections/](connections/). Bind them to your agents/tools via the Orchestrate CLI.
-
-Common templates:
-
-- [connections/basic-connections.yml](connections/basic-connections.yml)
-- [connections/bearer-connections.yml](connections/bearer-connections.yml)
-- [connections/api-key-connections.yml](connections/api-key-connections.yml)
-- [connections/key-value-connections.yml](connections/key-value-connections.yml)
-
-### 4) Import and deploy agents/tools
-
-Each example includes a management script or instructions. For instance:
-
-```
-cd native-agents/api-data-fetcher
-./scripts/manage_api_fetcher.sh import-all
-./scripts/manage_api_fetcher.sh deploy-all
-```
-
-### 5) Run optional backends (if included)
-
-Some examples provide local APIs (e.g., FastAPI). Follow their docs to start the backend.
+4. Test the integration:
+   ```bash
+   # Via API directly
+   curl -u demo:demo123 http://localhost:8000/api/v1/data
+   
+   # Via agent in watsonx Orchestrate playground
+   ```
 
 ---
 
-## Example Highlight: api-data-fetcher
+### 🤝 Simple Native Agents
 
-This is a full end-to-end system with agents, tools, a FastAPI backend, and test scripts.
+For learning agent basics without external APIs:
 
-Location: [native-agents/api-data-fetcher/](native-agents/api-data-fetcher/)
+**Path**: [native-agents/greeter-agents/](native-agents/greeter-agents/)
 
-Key docs:
+```bash
+cd native-agents/greeter-agents
+./manage-greeter-systems.sh  # Follow prompts
+```
 
-- [native-agents/api-data-fetcher/docs/CONNECTION_GUIDE.md](native-agents/api-data-fetcher/docs/CONNECTION_GUIDE.md)
-- [native-agents/api-data-fetcher/docs/FASTAPI_README.md](native-agents/api-data-fetcher/docs/FASTAPI_README.md)
-- [native-agents/api-data-fetcher/docs/Example_prompts.md](native-agents/api-data-fetcher/docs/Example_prompts.md)
-- [native-agents/api-data-fetcher/docs/MULTI_AUTH_GUIDE.md](native-agents/api-data-fetcher/docs/MULTI_AUTH_GUIDE.md)
+No backend required - pure agent-to-agent and agent-to-tool interactions.
+
+---
+
+### 📚 Knowledge Base Integration
+
+For document-backed conversational agents:
+
+**Path**: [knowledge-bases/hr-assistant-agents-with-kb/](knowledge-bases/hr-assistant-agents-with-kb/)
+
+```bash
+cd knowledge-bases/hr-assistant-agents-with-kb
+cat README.md  # Detailed setup instructions
+```
+
+Demonstrates:
+- Document ingestion (company policies, handbooks)
+- KB-backed agent queries
+- Conversational document search
+
+---
+
+### 🌐 External Agent Systems
+
+**Path**: [external-agents/](external-agents/)
+
+```bash
+cd external-agents
+./manage-external-agent-system.sh
+```
+
+Shows supervisor patterns coordinating external agent systems.
+
+---
+
+### 🔌 MCP Integration
+
+**Path**: [mcp-example/greeter-mcp/](mcp-example/greeter-mcp/)
+
+Model Context Protocol server implementation:
+```bash
+cd mcp-example/greeter-mcp
+cat README.md  # MCP setup instructions
+```
+
+---
+
+### 🛠️ Customer Care Workflow
+
+**Path**: [native-agents/product-customer_care/](native-agents/product-customer_care/)
+
+Multi-agent customer support system with ServiceNow integration:
+```bash
+cd native-agents/product-customer_care
+./manage_customer_care.sh
+```
+
+---
+
+## All Connection Types
+
+The [connections/connections-types/](connections/connections-types/) folder includes templates for:
+
+| Auth Type | YAML File | Shell Script |
+|-----------|-----------|--------------|
+| Basic Auth | `basic-connections.yml` | `basic-connections.sh` |
+| Bearer Token | `bearer-connections.yml` | `bearer-connections.sh` |
+| API Key | `api-key-connections.yml` | `api-key-connections.sh` |
+| Key-Value Headers | `key-value-connections.yml` | `key-value-connections.sh` |
+| OAuth Authorization Code | `oauth-auth-code-connections.yml` | `oauth-auth-code-connections.sh` |
+| OAuth Client Credentials | `oauth-client-credentials-connections.yml` | `oauth-client-credentials-connections.sh` |
+| OAuth Password | `oauth-password-connections.yml` | `oauth-password-connections.sh` |
+| SSO IdP Flow | `sso-idp-flow-connections.yml` | `sso-idp-flow-connections.sh` |
+| SSO IdP Single Exchange | `sso-idp-single-exchange-connections.yml` | `sso-idp-single-exchange-connections.sh` |
+
+Each pair includes:
+- **YAML**: Import template for `orchestrate connections import`
+- **Shell Script**: Helper script with CLI commands
+
+---
+
+## CLI Reference
+
+See [WATSONX_ORCHESTRATE_CLI_CHEATSHEET.md](WATSONX_ORCHESTRATE_CLI_CHEATSHEET.md) for complete command reference covering:
+- Environments
+- Agents & Tools
+- Connections
+- Knowledge Bases
+- Toolkits (MCP)
+- Observability
+
+---
+
+## Prerequisites
+
+```bash
+# Install watsonx Orchestrate CLI
+pip install --upgrade ibm-watsonx-orchestrate
+
+# Configure environment
+orchestrate env add -n my-env -u <your-watsonx-orchestrate-url>
+orchestrate env activate my-env
+
+# Optional: Python dependencies for FastAPI backend
+cd connections/backend
+pip install -r requirements.txt
+```
+
+---
+
+## Testing the Backend
+
+The [connections/backend/](connections/backend/) FastAPI server supports multiple auth methods:
+
+```bash
+# Start server
+cd connections/backend
+./run_server.sh start
+
+# Test Basic Auth
+curl -u demo:demo123 http://localhost:8000/api/v1/data
+
+# Test Bearer Token
+curl -H "Authorization: Bearer demo-token-456" http://localhost:8000/api/v1/data
+
+# Test API Key
+curl -H "x-api-key: demo-api-key" http://localhost:8000/api/v1/data
+
+# Test Key-Value
+curl -H "x-client-id: client-123" http://localhost:8000/api/v1/data
+
+# Interactive API docs
+open http://localhost:8000/docs
+```
+
+Run test suite:
+```bash
+cd connections/backend
+python test_multi_auth.py
+```
 
 ---
 
 ## Notes
 
-- Some examples require the IBM watsonx Orchestrate CLI and SDK.
-- Backends use mock data for testing unless otherwise noted.
-- Replace demo credentials before using in real environments.
+- All backends use **mock data** for demonstration
+- Replace demo credentials before production use
+- Each example folder contains its own README with detailed instructions
+- Connection templates require credential configuration via CLI
+
+---
+
+## Resources
+
+- **IBM watsonx Orchestrate Documentation**: https://developer.watson-orchestrate.ibm.com/
+- **CLI Cheatsheet**: [WATSONX_ORCHESTRATE_CLI_CHEATSHEET.md](WATSONX_ORCHESTRATE_CLI_CHEATSHEET.md)
+- **Connection Guide**: [connections/agents-tools/api-data-fetcher/docs/](connections/agents-tools/api-data-fetcher/docs/)
 
 ---
 
 ## Support
 
-If you need additional examples or enhancements, open an issue or request changes.
+For issues or feature requests, please open an issue in this repository.
