@@ -5,6 +5,6 @@ description: Company policies, procedures, and guidelines for employee reference
 documents:
   - documents/company_handbook.txt
   - documents/remote_work_policy.txt
-  - documents/expense_policy.txt
+  - documents/expense_policy.pdf
 vector_index:
    embeddings_model_name: virtual-model/openai/text-embedding-3-small
