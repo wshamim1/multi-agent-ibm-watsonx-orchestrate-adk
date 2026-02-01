@@ -1,32 +1,19 @@
-#+#+#+#+########################################
+#########################################
 # Multi-Agent IBM watsonx Orchestrate ADK Demos
-#+#+#+#+########################################
+#########################################
 
-This repository contains working examples for IBM watsonx Orchestrate ADK, including:
+This repository provides multiple working examples for IBM watsonx Orchestrate ADK, covering:
 
-- Native agent systems with supervisor patterns
-- Tools wired to IBM connection types (Basic, Bearer, API Key, Key-Value)
-- A FastAPI backend for testing multi-auth integrations
-- Example knowledge-base and external agent setups
+- Native multi-agent systems and supervisor patterns
+- Tools integrated with IBM connection types (Basic, Bearer, API Key, Key-Value)
+- Knowledge-base (KB) backed agents
+- MCP-based agent and server examples
+- External agent configurations
+- Optional FastAPI backends for local testing
 
-The most complete end-to-end example is **api-data-fetcher**, which includes agents, tools, a FastAPI backend, scripts, and docs.
+Use the folder that matches the pattern you want to learn or prototype.
 
 ---
-
-## Other Examples Included
-
-Use these folders to explore additional patterns beyond api-data-fetcher:
-
-- MCP example: [mcp-example/greeter-mcp/](mcp-example/greeter-mcp/)
-	- Greeter MCP server and agent wiring
-- External agents: [external-agents/](external-agents/)
-	- External agent definitions and supervisor orchestration
-- Knowledge bases: [knowledge-bases/](knowledge-bases/)
-	- KB-backed agents (HR assistant example with documents)
-- Native agent packs: [native-agents/](native-agents/)
-	- Multiple agent/tool systems including greeter and weather examples
-- Customer care system: [product-customer_care/](product-customer_care/)
-	- Customer care agents and ServiceNow tools
 
 ## Repository Structure
 
@@ -36,80 +23,67 @@ external-agents/           # External agent examples
 knowledge-bases/           # KB-backed agent examples
 mcp-example/               # MCP example with greeter server
 native-agents/             # Native agent systems
-	api-data-fetcher/        # Full multi-auth example (agents + tools + backend)
 product-customer_care/     # Customer care multi-agent example
 ```
 
 ---
 
-## Quick Start (api-data-fetcher)
+## Examples Included
 
-Path: `native-agents/api-data-fetcher`
-
-### 1) Install backend dependencies
-
-Use the requirements file in the backend folder:
-
-```
-cd native-agents/api-data-fetcher/backend
-pip install -r requirements.txt
-```
-
-### 2) Start the FastAPI server
-
-```
-./run_server.sh start-dev
-```
-
-### 3) Test multi-auth
-
-```
-python test_multi_auth.py
-```
-
-The server supports **Basic Auth**, **Bearer Token**, **API Key**, and **Key-Value headers**. See the guide:
-
-- `native-agents/api-data-fetcher/docs/MULTI_AUTH_GUIDE.md`
+- MCP example: [mcp-example/greeter-mcp/](mcp-example/greeter-mcp/)
+  - Greeter MCP server and agent wiring
+- External agents: [external-agents/](external-agents/)
+  - External agent definitions and supervisor orchestration
+- Knowledge bases: [knowledge-bases/](knowledge-bases/)
+  - KB-backed agents (HR assistant example with documents)
+- Native agent packs: [native-agents/](native-agents/)
+  - Multiple agent/tool systems including greeter and weather examples
+- Customer care system: [product-customer_care/](product-customer_care/)
+  - Customer care agents and ServiceNow tools
 
 ---
 
-## Connections
+## How to Use This Repo
 
-Connection templates are stored in `connections/`. You can bind them to agents/tools using the Orchestrate CLI. Examples include:
-
-- `basic-connections.yml`
-- `bearer-connections.yml`
-- `api-key-connections.yml`
-- `key-value-connections.yml`
-
-Use these to configure credentials that tools can access via the `connections` runtime API.
-
----
-
-## Agents and Tools (api-data-fetcher)
-
-Location: `native-agents/api-data-fetcher`
+### 0) Clone the repository
 
 ```
-agents/      # data_fetcher_agent, data_processor_agent, supervisor_agent
-tools/       # data_fetcher_tools.py with connection-aware tools
-backend/     # FastAPI multi-auth API for local testing
-scripts/     # manage_api_fetcher.sh for import/deploy
-docs/        # guides and usage notes
+git clone <your-repo-url>
+cd multi-agent-ibm-watsonx-orchestrate-adk
 ```
 
-Key docs:
+### 1) Choose an example
 
-- `docs/CONNECTION_GUIDE.md`
-- `docs/FASTAPI_README.md`
-- `docs/Example_prompts.md`
-- `docs/MULTI_AUTH_GUIDE.md`
+Pick the folder that matches your goal:
 
----
+- For MCP flows: [mcp-example/greeter-mcp/](mcp-example/greeter-mcp/)
+- For KB agents: [knowledge-bases/](knowledge-bases/)
+- For native agent systems: [native-agents/](native-agents/)
+- For external agents: [external-agents/](external-agents/)
+- For customer care workflows: [product-customer_care/](product-customer_care/)
 
-## Common Workflows
+### 2) Read the example docs
 
-### Import and deploy agents/tools
+Most examples include their own README or docs. Start in the example folder:
+
+- [native-agents/api-data-fetcher/](native-agents/api-data-fetcher/)
+- [external-agents/README.md](external-agents/README.md)
+- [mcp-example/greeter-mcp/README.md](mcp-example/greeter-mcp/README.md)
+
+### 3) Configure connections
+
+Connection templates are in [connections/](connections/). Bind them to your agents/tools via the Orchestrate CLI.
+
+Common templates:
+
+- [connections/basic-connections.yml](connections/basic-connections.yml)
+- [connections/bearer-connections.yml](connections/bearer-connections.yml)
+- [connections/api-key-connections.yml](connections/api-key-connections.yml)
+- [connections/key-value-connections.yml](connections/key-value-connections.yml)
+
+### 4) Import and deploy agents/tools
+
+Each example includes a management script or instructions. For instance:
 
 ```
 cd native-agents/api-data-fetcher
@@ -117,20 +91,32 @@ cd native-agents/api-data-fetcher
 ./scripts/manage_api_fetcher.sh deploy-all
 ```
 
-### Stop the backend server
+### 5) Run optional backends (if included)
 
-```
-cd native-agents/api-data-fetcher/backend
-./run_server.sh stop
-```
+Some examples provide local APIs (e.g., FastAPI). Follow their docs to start the backend.
+
+---
+
+## Example Highlight: api-data-fetcher
+
+This is a full end-to-end system with agents, tools, a FastAPI backend, and test scripts.
+
+Location: [native-agents/api-data-fetcher/](native-agents/api-data-fetcher/)
+
+Key docs:
+
+- [native-agents/api-data-fetcher/docs/CONNECTION_GUIDE.md](native-agents/api-data-fetcher/docs/CONNECTION_GUIDE.md)
+- [native-agents/api-data-fetcher/docs/FASTAPI_README.md](native-agents/api-data-fetcher/docs/FASTAPI_README.md)
+- [native-agents/api-data-fetcher/docs/Example_prompts.md](native-agents/api-data-fetcher/docs/Example_prompts.md)
+- [native-agents/api-data-fetcher/docs/MULTI_AUTH_GUIDE.md](native-agents/api-data-fetcher/docs/MULTI_AUTH_GUIDE.md)
 
 ---
 
 ## Notes
 
-- The FastAPI server uses mock data for testing.
+- Some examples require the IBM watsonx Orchestrate CLI and SDK.
+- Backends use mock data for testing unless otherwise noted.
 - Replace demo credentials before using in real environments.
-- Some examples require the IBM watsonx Orchestrate CLI and SDK installed.
 
 ---
 
