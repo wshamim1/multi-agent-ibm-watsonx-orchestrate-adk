@@ -1,0 +1,19 @@
+# IBM watsonx Orchestrate ADK
+ibm-watsonx-orchestrate
+
+# Database connectors
+mysql-connector-python
+
+# Additional dependencies
+python-dotenv
+
+# Python dependencies for API Data Fetcher tools
+
+# HTTP client for tools
+requests>=2.31.0
+
+# FastAPI backend dependencies
+fastapi>=0.109.0
+uvicorn[standard]>=0.27.0
+pydantic>=2.5.0
+python-multipart>=0.0.6

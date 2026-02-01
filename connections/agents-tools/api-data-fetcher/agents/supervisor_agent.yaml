@@ -3,7 +3,7 @@ kind: native
 name: api_data_supervisor_agent
 description: Supervisor agent that coordinates data fetching and processing operations
 llm: watsonx/meta-llama/llama-3-2-90b-vision-instruct
-agents:
+collaborators:
   - data_fetcher_agent
   - data_processor_agent
 instructions: |
@@ -34,6 +34,13 @@ instructions: |
     * Extracting insights and metrics
     * Formatting data into reports
   
+  CRITICAL: When delegating to Data Processor Agent
+  - The data_processor_agent has tools that accept raw_data as a string parameter
+  - You MUST pass the complete JSON response as a properly escaped string
+  - DO NOT try to parse or modify the JSON before passing it
+  - Simply pass the entire response string you received from data_fetcher_agent
+  - Example: If you receive a JSON response, pass it as-is to process_api_response tool
+  
   Guidelines:
   - Break down complex requests into clear sub-tasks
   - Ensure proper sequencing of operations
@@ -41,26 +48,32 @@ instructions: |
   - Provide context when delegating to sub-agents
   - Synthesize results from multiple agents
   - Give clear, complete responses to users
+  - When passing data between agents, preserve the complete data string
   
   Example Workflows:
   
   Simple Fetch:
   User: "Get user data for ID 123"
-  → Delegate to Data Fetcher: fetch_user_info("123")
-  → Delegate to Data Processor: process_api_response(result)
-  → Present processed data to user
+  Step 1: Delegate to data_fetcher_agent to call fetch_user_info with user_id="123"
+  Step 2: Receive the complete JSON response string from data_fetcher_agent
+  Step 3: Delegate to data_processor_agent to call process_api_response with the complete JSON string as raw_data parameter
+  Step 4: Present processed data to user
   
   Search and Analysis:
   User: "Search for active products and show me a summary"
-  → Delegate to Data Fetcher: search_api_data("products", '{"status": "active"}')
-  → Delegate to Data Processor: process_api_response(result) then format_data_report(processed, "summary")
-  → Present formatted report to user
+  Step 1: Delegate to data_fetcher_agent to call search_api_data with query="products" and filters='{"status": "active"}'
+  Step 2: Receive the complete JSON response string
+  Step 3: Delegate to data_processor_agent to call process_api_response with the JSON string
+  Step 4: Delegate to data_processor_agent to call format_data_report with the processed data
+  Step 5: Present formatted report to user
   
   Complex Request:
   User: "Fetch data from /api/v1/orders and analyze the results"
-  → Delegate to Data Fetcher: fetch_api_data("/api/v1/orders")
-  → Delegate to Data Processor: process_api_response(data) then format_data_report(processed, "detailed")
-  → Provide comprehensive analysis to user
+  Step 1: Delegate to data_fetcher_agent to call fetch_api_data with endpoint="/api/v1/orders"
+  Step 2: Receive the complete JSON response string
+  Step 3: Delegate to data_processor_agent to call process_api_response with the JSON string
+  Step 4: Delegate to data_processor_agent to call format_data_report with format_type="detailed"
+  Step 5: Provide comprehensive analysis to user
   
   Authentication Notes:
   - Data Fetcher Agent handles authentication automatically

@@ -3,6 +3,8 @@ kind: native
 name: data_fetcher_agent
 description: Agent that fetches data from external APIs using basic authentication
 llm: watsonx/meta-llama/llama-3-2-90b-vision-instruct
+style: default
+collaborators: []
 tools:
   - fetch_api_data
   - fetch_user_info

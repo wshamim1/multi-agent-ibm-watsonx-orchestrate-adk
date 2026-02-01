@@ -14,7 +14,7 @@ MY_APP_ID = 'basic-connection-app'
 @tool(
     expected_credentials=[
         {"app_id": MY_APP_ID, "type": ConnectionType.BASIC_AUTH}
-    ]
+]
 )
 def fetch_api_data(endpoint: str, method: str = "GET") -> str:
     """
@@ -88,7 +88,6 @@ def fetch_api_data(endpoint: str, method: str = "GET") -> str:
         }
         return json.dumps(response_data, indent=2)
 
-
 @tool(
     expected_credentials=[
         {"app_id": MY_APP_ID, "type": ConnectionType.BASIC_AUTH}
@@ -122,42 +121,73 @@ def fetch_user_info(user_id: str) -> str:
         'Accept': 'application/json'
     }
     
+    print(f"[DEBUG] Attempting to fetch user {user_id} from: {url}")
+    print(f"[DEBUG] Using credentials: username={creds.username}, base_url={base_url}")
+    
     try:
         # Make authenticated GET request
         response = requests.get(
             url,
             headers=headers,
-            auth=HTTPBasicAuth(creds.username, creds.password)
+            auth=HTTPBasicAuth(creds.username, creds.password),
+            timeout=10
         )
+        
+        print(f"[DEBUG] Response status code: {response.status_code}")
+        print(f"[DEBUG] Response headers: {dict(response.headers)}")
+        
         response.raise_for_status()
         
         # Return the actual API response
-        return json.dumps(response.json(), indent=2)
+        result = response.json()
+        print(f"[DEBUG] Successfully fetched data from API")
+        return json.dumps(result, indent=2)
+        
+    except requests.exceptions.ConnectionError as e:
+        error_msg = f"Connection error: Cannot connect to {url}. Is the server running?"
+        print(f"[ERROR] {error_msg}")
+        print(f"[ERROR] Details: {str(e)}")
+        return json.dumps({
+            "error": True,
+            "message": error_msg,
+            "details": str(e),
+            "attempted_url": url,
+            "note": "Make sure FastAPI server is running at the configured URL"
+        }, indent=2)
+        
+    except requests.exceptions.Timeout as e:
+        error_msg = f"Request timeout: Server at {url} did not respond in time"
+        print(f"[ERROR] {error_msg}")
+        return json.dumps({
+            "error": True,
+            "message": error_msg,
+            "attempted_url": url
+        }, indent=2)
+        
+    except requests.exceptions.HTTPError as e:
+        status_code = e.response.status_code if e.response else "unknown"
+        reason = e.response.reason if e.response else "unknown"
+        response_text = e.response.text if e.response else ""
+        error_msg = f"HTTP error {status_code}: {reason}"
+        print(f"[ERROR] {error_msg}")
+        print(f"[ERROR] Response body: {response_text}")
+        return json.dumps({
+            "error": True,
+            "message": error_msg,
+            "status_code": status_code,
+            "response_body": response_text,
+            "attempted_url": url
+        }, indent=2)
         
     except requests.exceptions.RequestException as e:
-        # If actual API call fails, return mock data for demonstration
-        user_data = {
-            "success": True,
-            "message": "Mock data returned (API endpoint not reachable)",
-            "authenticated_as": creds.username,
-            "user": {
-                "id": user_id,
-                "username": f"user_{user_id}",
-                "email": f"user_{user_id}@example.com",
-                "first_name": "John",
-                "last_name": "Doe",
-                "status": "active",
-                "created_at": "2024-01-15T10:30:00Z",
-                "last_login": "2026-01-31T14:22:00Z",
-                "roles": ["user", "editor"],
-                "metadata": {
-                    "department": "Engineering",
-                    "location": "San Francisco"
-                }
-            }
-        }
-        return json.dumps(user_data, indent=2)
-
+        error_msg = f"Request failed: {str(e)}"
+        print(f"[ERROR] {error_msg}")
+        return json.dumps({
+            "error": True,
+            "message": error_msg,
+            "attempted_url": url,
+            "error_type": type(e).__name__
+        }, indent=2)
 
 @tool(
     expected_credentials=[
@@ -252,7 +282,6 @@ def search_api_data(query: str, filters: str = "") -> str:
         }
         return json.dumps(search_results, indent=2)
 
-
 @tool
 def process_api_response(raw_data: str) -> str:
     """
@@ -306,7 +335,6 @@ def process_api_response(raw_data: str) -> str:
         
     except Exception as e:
         return json.dumps({"error": f"Failed to process data: {str(e)}"})
-
 
 @tool
 def format_data_report(data: str, format_type: str = "summary") -> str:

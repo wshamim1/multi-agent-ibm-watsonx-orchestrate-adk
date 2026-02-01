@@ -5,7 +5,7 @@
 
 # Get the directory where this script is located
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-PROJECT_ROOT="$( cd "$SCRIPT_DIR/.." && pwd )"
+PROJECT_ROOT="$( cd "$SCRIPT_DIR/../agents-tools/api-data-fetcher" && pwd )"
 
 DATA_FETCHER_AGENT_FILE="$PROJECT_ROOT/agents/data_fetcher_agent.yaml"
 DATA_PROCESSOR_AGENT_FILE="$PROJECT_ROOT/agents/data_processor_agent.yaml"
@@ -63,8 +63,8 @@ import_tools() {
     else
         echo -e "${RED}✗ Failed to import tools${NC}"
         echo -e "${YELLOW}Make sure basic-connection-app is configured:${NC}"
-        echo -e "  cd ../../connections"
-        echo -e "  orchestrate connections apply -f basic-connections.yml"
+        echo -e "  cd ../connections-types"
+        echo -e "  bash basic-connections.sh"
         return 1
     fi
 }
@@ -169,9 +169,10 @@ test_connection() {
         echo -e "${RED}✗ Connection not found${NC}"
         echo ""
         echo -e "${YELLOW}To set up the connection:${NC}"
-        echo -e "  1. cd ../../../connections"
-        echo -e "  2. orchestrate connections apply -f basic-connections.yml"
-        echo -e "  3. orchestrate connections set-credentials -a basic-connection-app --env draft -u <username> -p <password>"
+        echo -e "  1. cd ../connections-types"
+        echo -e "  2. bash basic-connections.sh"
+        echo -e "     (or manually run: orchestrate connections import -f basic-connections.yml)"
+        echo -e "  3. Set credentials if needed: orchestrate connections set-credentials -a basic-connection-app --env draft -u <username> -p <password>"
     fi
 }
 
