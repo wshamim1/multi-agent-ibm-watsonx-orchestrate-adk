@@ -1,0 +1,166 @@
+{
+  "spec": {
+    "kind": "flow",
+    "name": "custom_flow_docclassifier_example",
+    "display_name": "custom_flow_docclassifier_example",
+    "description": "Classifies documents into custom classes.",
+    "input_schema": {
+      "$ref": "#/schemas/custom_flow_docclassifier_example_input"
+    },
+    "schedulable": false
+  },
+  "nodes": {
+    "document_classifier_node": {
+      "spec": {
+        "kind": "docclassifier",
+        "name": "document_classifier_node",
+        "display_name": "document_classifier_node",
+        "description": "Classifies documents into one custom class.",
+        "input_schema": {
+          "$ref": "#/schemas/document_classifier_node_input"
+        },
+        "output_schema": {
+          "$ref": "#/schemas/DocumentClassificationResponse"
+        },
+        "task": "custom_document_classification",
+        "enable_hw": false,
+        "version": "TIP",
+        "config": {
+          "domain": "other",
+          "type": "class_configuration",
+          "llm": "watsonx/meta-llama/llama-3-2-11b-vision-instruct",
+          "min_confidence": 0.0,
+          "classes": [
+            {
+              "class_name": "Invoice",
+              "class_id": "725b1c39-6698-5b49-baa5-76e3b36602bb"
+            },
+            {
+              "class_name": "Contract",
+              "class_id": "c37d4777-c49e-5154-9dbc-9b9a623a4bba"
+            },
+            {
+              "class_name": "TaxForm",
+              "class_id": "95e80fc0-117b-55e0-890b-54cb2e346e77"
+            },
+            {
+              "class_name": "BillOfLading",
+              "class_id": "5b9679a7-cec0-5402-acfd-920e221703c2"
+            }
+          ]
+        },
+        "enable_review": false
+      }
+    },
+    "__start__": {
+      "spec": {
+        "kind": "start",
+        "name": "__start__",
+        "display_name": "__start__"
+      }
+    },
+    "__end__": {
+      "spec": {
+        "kind": "end",
+        "name": "__end__",
+        "display_name": "__end__"
+      }
+    }
+  },
+  "edges": [
+    {
+      "start": "__start__",
+      "end": "document_classifier_node"
+    },
+    {
+      "start": "document_classifier_node",
+      "end": "__end__"
+    }
+  ],
+  "schemas": {
+    "custom_flow_docclassifier_example_input": {
+      "type": "object",
+      "title": "custom_flow_docclassifier_example_input",
+      "required": [],
+      "properties": {
+        "document_ref": {
+          "title": "Document reference",
+          "description": "Either an ID or a URL identifying the document to be used.",
+          "format": "binary",
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "binary"
+            },
+            {
+              "type": "string",
+              "title": "File reference",
+              "description": "A URL identifying the File to be used.",
+              "format": "wxo-file"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    },
+    "document_classifier_node_input": {
+      "type": "object",
+      "title": "document_classifier_node_input",
+      "required": [],
+      "properties": {
+        "document_ref": {
+          "title": "Document reference",
+          "description": "Either an ID or a URL identifying the document to be used.",
+          "format": "binary",
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "binary"
+            },
+            {
+              "type": "string",
+              "title": "File reference",
+              "description": "A URL identifying the File to be used.",
+              "format": "wxo-file"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    },
+    "Custom Classification": {
+      "type": "object",
+      "title": "Custom Classification",
+      "description": "The Class extracted by the llm",
+      "properties": {
+        "class_name": {
+          "type": "string",
+          "title": "Class Name",
+          "description": "Class Name of the Document",
+          "default": []
+        }
+      }
+    },
+    "DocumentClassificationResponse": {
+      "type": "object",
+      "title": "DocumentClassificationResponse",
+      "required": [
+        "custom_class_response"
+      ],
+      "properties": {
+        "custom_class_response": {
+          "title": "Custom Classification",
+          "$ref": "#/schemas/Custom Classification"
+        }
+      }
+    }
+  },
+  "metadata": {
+    "source_kind": "adk/python",
+    "compiled_on": "2026-01-15T23:50:22.466730+00:00"
+  }
+}
